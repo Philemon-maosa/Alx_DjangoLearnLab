@@ -1,0 +1,1 @@
+I have created a ne django project for the asignment
