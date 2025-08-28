@@ -1,3 +1,14 @@
-# Delete
+
+---
+
+### **delete.md**
+```markdown
+# Delete Book
+
+**Command:**
+```python
+# Delete the book instance
 book.delete()
-# Output: (1, {'bookshelf.Book': 1})
+
+
+(1, {'bookshelf.Book': 1})
