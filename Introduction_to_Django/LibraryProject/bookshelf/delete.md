@@ -10,5 +10,4 @@
 # Delete the book instance
 book.delete()
 
-
 (1, {'bookshelf.Book': 1})

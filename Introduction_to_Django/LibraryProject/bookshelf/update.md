@@ -3,9 +3,8 @@
 **Command:**
 ```python
 # Assuming 'book' is the instance created earlier
-book.title = "Animal Farm"
+book.title = "Nineteen Eighty-Four"
 book.save()
 print(book.title)
 
-
-Animal Farm
+Nineteen Eighty-Four
