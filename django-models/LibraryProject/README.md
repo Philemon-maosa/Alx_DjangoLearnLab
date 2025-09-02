@@ -1,0 +1,1 @@
+This is a django project i am creating as part of the asignment
