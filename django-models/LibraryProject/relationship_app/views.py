@@ -5,6 +5,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import user_passes_test, permission_required
 from django.http import HttpResponse
 from .models import Book, Library
+from django.contrib.auth.decorators import permission_required
+
 
 
 
