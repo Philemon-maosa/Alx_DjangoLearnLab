@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import book_list, LibraryDetailView
+from .views import list_books, LibraryDetailView  
 
 urlpatterns = [
-    path("books/", book_list, name="book_list"),  # FBV
-    path("libraries/<int:pk>/", LibraryDetailView.as_view(), name="library_detail"),  # CBV
+    path("books/", list_books, name="list_books"),
+    path("libraries/<int:pk>/", LibraryDetailView.as_view(), name="library_detail"),
 ]
