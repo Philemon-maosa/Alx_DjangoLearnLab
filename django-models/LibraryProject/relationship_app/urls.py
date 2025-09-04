@@ -1,4 +1,6 @@
 from django.urls import path
+from .admin_view import admin_view
+
 from .views import add_book, edit_book, delete_book, book_list, LibraryDetailView, register, admin_view, librarian_view, member_view
 
 urlpatterns = [
