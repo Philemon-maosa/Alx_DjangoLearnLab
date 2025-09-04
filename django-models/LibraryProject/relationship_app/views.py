@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic.detail import DetailView
 from .models import Book
 from .models import Library
 
@@ -18,6 +18,5 @@ class LibraryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add all books related to this library
-        context["books"] = self.object.books.all()
+        context["books"] = self.object.books.all()  # all books in this library
         return context
