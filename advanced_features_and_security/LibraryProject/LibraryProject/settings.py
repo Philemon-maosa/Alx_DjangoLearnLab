@@ -124,4 +124,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Redirects after login/logout
 LOGIN_REDIRECT_URL = "list_books"   # after login, go to the book list
-LOGOUT_REDIRECT_URL = "login"       # after logout, go to the login page
+LOGOUT_REDIRECT_URL = "login"       # after logout, go to the login pageAUTH_USER_MODEL = "bookshelf.CustomUser"
+AUTH_USER_MODEL = "bookshelf.CustomUser"
