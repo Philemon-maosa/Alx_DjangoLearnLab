@@ -1,0 +1,6 @@
+# Create the file
+touch .gitignore
+# Open it and add these lines
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore
+echo "db.sqlite3" >> .gitignore
