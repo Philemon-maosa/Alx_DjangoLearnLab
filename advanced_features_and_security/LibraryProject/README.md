@@ -1,17 +1,42 @@
 # LibraryProject
 
-A Django project for managing books, users, and permissions.
+A Django-based library management system that allows users to manage books, authors, and libraries with role-based access control.
+
+---
 
 ## Features
 
-- Custom user model (`CustomUser`) with profile photos and date of birth
-- Book management with permissions (`can_view`, `can_create`, `can_edit`, `can_delete`)
-- Groups and roles (Admins, Editors, Viewers)
-- User profiles with roles (Admin, Librarian, Member)
-- Relationship management between authors, books, and libraries
+- **Book Management**
+  - Add, view, edit, and delete books
+  - Custom permissions (`can_view`, `can_create`, `can_edit`, `can_delete`)
 
-## Setup
+- **User Management**
+  - Custom user model (`CustomUser`) with profile photo and date of birth
+  - Role-based groups: `Admins`, `Editors`, `Viewers`
+  - Automatic user profile creation
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
+- **Library and Author Management**
+  - Manage libraries and associate books
+  - Manage authors and associate books
+  - Assign librarians to libraries
+
+- **Permissions Enforcement**
+  - Views protected by permissions using Django decorators
+  - Only authorized users can perform actions based on roles
+
+---
+
+## Requirements
+
+- Python 3.10+
+- Django 5.2.5
+- Pillow (for image uploads)
+
+---
+
+## Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/Philemon-maosa/Alx_DjangoLearnLab.git
+cd Alx_DjangoLearnLab/advanced_features_and_security/LibraryProject
