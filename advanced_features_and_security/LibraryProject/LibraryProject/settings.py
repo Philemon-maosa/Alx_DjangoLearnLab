@@ -1,20 +1,3 @@
-import os
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "insecure-secret-key")
-
-# Toggle debug with environment variable (default True for dev)
-DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
-
-# Allowed hosts
-if DEBUG:
-    ALLOWED_HOSTS = ["*"]  # Easier for local development
-else:
-    ALLOWED_HOSTS = ["yourdomain.com", "www.yourdomain.com", "127.0.0.1", "localhost"]
-
 # ---------------------------
 # 🔒 Security Settings
 # ---------------------------
@@ -33,3 +16,6 @@ SECURE_SSL_REDIRECT = not DEBUG             # Redirect HTTP → HTTPS in product
 SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
+
+# ✅ Detect HTTPS correctly when behind a proxy/load balancer
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
