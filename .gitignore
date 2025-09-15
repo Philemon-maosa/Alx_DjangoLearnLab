@@ -1,6 +1,34 @@
-# Create the file
-touch .gitignore
-# Open it and add these lines
-echo "__pycache__/" >> .gitignore
-echo "*.pyc" >> .gitignore
-echo "db.sqlite3" >> .gitignore
+# Virtual environments
+venv/
+env/
+.venv/
+*/venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+*.sqlite3
+db.sqlite3
+media/
+local_settings.py
+
+# IDEs / editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pip / wheel
+pip-wheel-metadata/
+*.egg-info/
+
+# Environment files
+.env
