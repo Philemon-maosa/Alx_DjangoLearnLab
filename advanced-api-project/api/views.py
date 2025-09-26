@@ -1,40 +1,36 @@
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated  # <-- add this
+from rest_framework import generics, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
 
-
-
-# List all books
-class BookListView(generics.ListAPIView):
+class BookListView(generics.ListCreateAPIView):
+    """
+    API endpoint that allows books to be listed or created.
+    Supports filtering, searching, and ordering.
+    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]  # everyone can view
+
+    # Enable filter, search, and ordering backends
+    filter_backends = [
+        DjangoFilterBackend,   # For filtering
+        filters.SearchFilter,  # For searching
+        filters.OrderingFilter # For ordering
+    ]
+
+    # Allow filtering on specific fields
+    filterset_fields = ['title', 'author', 'publication_year']
+
+    # Allow search on text-based fields
+    search_fields = ['title', 'author__name']
+
+    # Allow ordering results
+    ordering_fields = ['title', 'publication_year']
+
+    # Default ordering
+    ordering = ['title']
 
 
-# Retrieve a single book
-class BookDetailView(generics.RetrieveAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-# Create a new book
-class BookCreateView(generics.CreateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]  # only logged-in users
-
-
-# Update an existing book
-class BookUpdateView(generics.UpdateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-# Delete a book
-class BookDeleteView(generics.DestroyAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint
