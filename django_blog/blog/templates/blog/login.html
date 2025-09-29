@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!-- Link to your CSS -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" style="display:block; margin:0 auto 20px; width:80px;">
+        <h2>Login</h2>
+
+        <!-- Display messages (optional) -->
+        {% if messages %}
+            <ul style="color:red; list-style:none; padding:0;">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Username Field -->
+            <div>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p style="text-align:center; margin-top:10px;">
+            Don't have an account? <a href="{% url 'register' %}">Register</a>
+        </p>
+    </div>
+
+    <!-- Link to your JS -->
+    <script src="{% static 'js/login.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <!-- Link to your CSS -->
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+    <div class="register-container">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" style="display:block; margin:0 auto 20px; width:80px;">
+        <h2>Create Account</h2>
+
+        <!-- Display messages (optional) -->
+        {% if messages %}
+            <ul style="color:red; list-style:none; padding:0;">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+            <div>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <!-- Email Field -->
+            <div>
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <!-- Password Fields -->
+            <div>
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+            <div>
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="login-link">
+            Already have an account? <a href="{% url 'login' %}">Login</a>
+        </p>
+    </div>
+
+    <!-- Link to your JS -->
+    <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>
