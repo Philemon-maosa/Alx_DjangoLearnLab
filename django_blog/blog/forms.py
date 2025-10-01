@@ -1,8 +1,8 @@
 from django import forms
-from .models import Comment
+from .models import Comment, Profile, Post   # import Post for tagging
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Post   # 👈 import Post model
+from taggit.forms import TagWidget   # 👈 import TagWidget for tags
 
 
 # update user info
@@ -34,7 +34,7 @@ class RegisterForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["title", "content"]  # user can only set title & content
+        fields = ["title", "content", "tags"]  # 👈 include tags field
         widgets = {
             "title": forms.TextInput(attrs={
                 "class": "form-control",
@@ -45,7 +45,12 @@ class PostForm(forms.ModelForm):
                 "rows": 6,
                 "placeholder": "Write your blog content here..."
             }),
+            "tags": TagWidget(attrs={               # 👈 use TagWidget
+                "class": "form-control",
+                "placeholder": "Add tags separated by commas"
+            }),
         }
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
