@@ -3,11 +3,6 @@ from .models import Post
 from taggit.forms import TagWidget
 
 class PostForm(forms.ModelForm):
-    tags = forms.CharField(widget=TagWidget(attrs={
-        "class": "form-control",
-        "placeholder": "Add tags separated by commas"
-    }))
-
     class Meta:
         model = Post
         fields = ["title", "content", "tags"]
@@ -21,4 +16,5 @@ class PostForm(forms.ModelForm):
                 "rows": 6,
                 "placeholder": "Write your blog content here..."
             }),
+            "tags": TagWidget(),   # 👈 directly use TagWidget here
         }
