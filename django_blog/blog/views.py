@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Post, Comment, Tag
-from .forms import PostForm, CommentForm
+from django.contrib import messages
+from .models import Post, Comment, Tag, Profile
+from .forms import PostForm, CommentForm, RegisterForm, UserUpdateForm, ProfileUpdateForm
+from django.contrib.auth.decorators import login_required
 
 # ------------------ POST CRUD ------------------
 
@@ -109,14 +111,12 @@ def home(request):
 def search_posts(request):
     query = request.GET.get("q")
     posts = Post.objects.all()
-
     if query:
         posts = posts.filter(
             Q(title__icontains=query) |
             Q(content__icontains=query) |
             Q(tags__name__icontains=query)
         ).distinct()
-
     return render(request, "blog/search_results.html", {"posts": posts, "query": query})
 
 # ------------------ TAG FILTERING ------------------
@@ -125,3 +125,37 @@ def tagged_posts(request, slug):
     tag = get_object_or_404(Tag, slug=slug)
     posts = Post.objects.filter(tags=tag).order_by("-published_date")
     return render(request, "blog/tagged_posts.html", {"tag": tag, "posts": posts})
+
+# ------------------ USER REGISTRATION ------------------
+
+def register(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Automatically create a Profile for the new user
+            Profile.objects.create(user=user)
+            messages.success(request, "Your account has been created. You can now log in.")
+            return redirect("login")
+    else:
+        form = RegisterForm()
+    return render(request, "registration/register.html", {"form": form})
+
+# ------------------ USER PROFILE ------------------
+
+@login_required
+def profile(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your profile has been updated.")
+            return redirect("profile")
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {"u_form": u_form, "p_form": p_form}
+    return render(request, "blog/profile.html", context)
