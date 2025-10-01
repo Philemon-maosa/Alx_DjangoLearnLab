@@ -4,13 +4,30 @@
   <!-- Post title and metadata -->
   <h1 class="text-4xl font-bold mb-4">{{ object.title }}</h1>
   <p class="text-gray-500 mb-6">
-    By {{ object.author }} | {{ object.created_at|date:"M d, Y" }}
+    By {{ object.author }} | {{ object.published_date|date:"M d, Y" }}
   </p>
 
   <!-- Post content -->
   <div class="prose max-w-none mb-8">
     {{ object.content|linebreaks }}
   </div>
+
+  <!-- ✅ Tags Section -->
+  {% if object.tags.exists() %}
+    <div class="mb-6">
+      <span class="font-semibold text-gray-700">Tags:</span>
+      {% for tag in object.tags.all %}
+        <a href="{% url 'tagged-posts' tag.slug %}" 
+           class="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm hover:bg-blue-200 mr-2">
+          #{{ tag.name }}
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="mb-6 text-gray-500">
+      No tags for this post.
+    </div>
+  {% endif %}
 
   <!-- Edit/Delete for author -->
   {% if object.author == user %}

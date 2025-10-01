@@ -23,8 +23,15 @@ urlpatterns = [
     path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
 
-    # ✅ CRUD routes for Comment (what checker expects)
+    # ✅ CRUD routes for Comment
     path('post/<int:pk>/comments/new/', views.CommentCreateView.as_view(), name='comment-create'),
     path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
+
+    # ------------------ NEW FEATURES ------------------
+    # search posts
+    path('search/', views.search_posts, name='search-posts'),
+
+    # view posts by tag
+    path('tags/<slug:slug>/', views.tagged_posts, name='tagged-posts'),
 ]
