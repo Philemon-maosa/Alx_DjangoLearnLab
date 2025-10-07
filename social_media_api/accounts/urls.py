@@ -4,7 +4,8 @@ from .views import (
     CustomAuthToken,
     UserProfileView,
     follow_user,
-    unfollow_user
+    unfollow_user,
+    FollowUserView,
 )
 
 urlpatterns = [

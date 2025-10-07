@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
     'drf_yasg',
+    'notifications',
 ]
 
 MIDDLEWARE = [

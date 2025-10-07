@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),  # Accounts endpoints
     path('api/', include('posts.urls')),             # Posts and comments endpoints
+    path('api/notifications/', include('notifications.urls')),
 
     # API Documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

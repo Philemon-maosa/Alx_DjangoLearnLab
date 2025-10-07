@@ -1,11 +1,8 @@
 from django.db import models
 from django.conf import settings
 
-User = settings.AUTH_USER_MODEL  # your custom user model
+User = settings.AUTH_USER_MODEL
 
-# ------------------------------
-# Post model
-# ------------------------------
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255)
@@ -16,10 +13,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-
-# ------------------------------
-# Comment model
-# ------------------------------
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
@@ -30,7 +23,6 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
 
-
 # ------------------------------
 # Like model
 # ------------------------------
@@ -40,7 +32,7 @@ class Like(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'post')  # a user can like a post only once
+        unique_together = ('user', 'post')  # Prevent duplicate likes
 
     def __str__(self):
-        return f"{self.user} liked {self.post.title}"
+        return f"{self.user} liked {self.post}"
