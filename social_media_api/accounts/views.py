@@ -1,21 +1,25 @@
-# accounts/views.py
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from django.contrib.auth import get_user_model
 from .serializers import UserRegistrationSerializer
-
-User = get_user_model()
+from .models import CustomUser  # Use CustomUser explicitly
 
 # ------------------------------
 # User Registration Endpoint
 # ------------------------------
-class UserRegistrationView(generics.CreateAPIView):
-    queryset = User.objects.all()
+class UserRegistrationView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
     serializer_class = UserRegistrationSerializer
     permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({"user": UserRegistrationSerializer(user).data})
+
 
 # ------------------------------
 # Custom Login Endpoint Returning Token
@@ -29,16 +33,25 @@ class CustomAuthToken(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key})
 
+
 # ------------------------------
 # User Profile Endpoint
 # ------------------------------
-class UserProfileView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserRegistrationSerializer  # or a dedicated profile serializer
+class UserProfileView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserRegistrationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self):
-        return self.request.user
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.get_serializer(request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 # ------------------------------
 # Follow/Unfollow Endpoints
@@ -50,8 +63,8 @@ def follow_user(request, user_id):
     Authenticated user follows another user.
     """
     try:
-        target_user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
+        target_user = CustomUser.objects.get(id=user_id)
+    except CustomUser.DoesNotExist:
         return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
     if target_user == request.user:
@@ -68,8 +81,8 @@ def unfollow_user(request, user_id):
     Authenticated user unfollows another user.
     """
     try:
-        target_user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
+        target_user = CustomUser.objects.get(id=user_id)
+    except CustomUser.DoesNotExist:
         return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
     if target_user == request.user:
