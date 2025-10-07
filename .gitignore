@@ -5,10 +5,19 @@ __pycache__/
 # Environment
 .env
 venv/
+ENV/
 
 # Database
 db.sqlite3
+*.sqlite3
 
 # Django
 /staticfiles/
 /media/
+*.log
+media/
+staticfiles/
+
+# OS files
+.DS_Store
+Thumbs.db
