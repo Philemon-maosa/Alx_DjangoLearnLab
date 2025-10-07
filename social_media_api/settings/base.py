@@ -1,9 +1,18 @@
 from pathlib import Path
+import os
 
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-=2^b=03jp44&qab%28olgq4vue3vptixdk)v(vv%&-%q5h%5t)'
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-secret-key-for-dev')
 
+# Default debug (can be overridden in dev/prod)
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -11,14 +20,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party
     'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
+
     # Local apps
     'accounts',
     'posts',
     'notifications',
-    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +62,34 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social_media_api.wsgi.application'
 
+# Database (default: SQLite, can be overridden in prod)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
+
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+
+# Static and media
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 REST_FRAMEWORK = {
@@ -57,11 +97,3 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
-
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
-
-STATIC_URL = 'static/'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

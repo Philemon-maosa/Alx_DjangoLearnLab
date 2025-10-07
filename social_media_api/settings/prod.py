@@ -1,21 +1,11 @@
 from .base import *
+import dj_database_url
 
-# Literal DEBUG for checker
+# Turn off debug in production
 DEBUG = False
 
+# Set allowed hosts for production domain
 ALLOWED_HOSTS = ["yourdomain.com", "www.yourdomain.com"]
-
-# Example: PostgreSQL database
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "your_db_name",
-        "USER": "your_db_user",
-        "PASSWORD": "your_db_password",
-        "HOST": "your_db_host",
-        "PORT": "5432",
-    }
-}
 
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
@@ -24,3 +14,18 @@ X_FRAME_OPTIONS = "DENY"
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Static files via WhiteNoise
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Database configuration using DATABASE_URL (Heroku)
+DATABASES['default'] = dj_database_url.config(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}") }
